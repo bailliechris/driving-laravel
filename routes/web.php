@@ -22,6 +22,14 @@ Route::get('/contact', 'ContactController@show');
 Route::post('/contact', 'ContactController@store');
 
 Route::resource('posts', 'PostsController');
-Auth::routes();
+
+Route::get('login','Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+
+Route::group(['middleware' => 'auth'], function () {
+   Route::get('create','Auth\RegisterController@showRegistrationForm')->name('create');
+   Route::post('create','Auth\RegisterController@create');
+   Route::post('logout','Auth\LoginController@logout')->name('logout');
+});
 
 Route::get('/home', 'HomeController@index')->name('home');
